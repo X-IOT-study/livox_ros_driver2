@@ -246,13 +246,18 @@ else(ROS_EDITION STREQUAL "ROS2")
   )
 
   ## make sure the livox_lidar_sdk_shared library is installed
-  find_library(LIVOX_LIDAR_SDK_LIBRARY liblivox_lidar_sdk_shared.so /usr/local/lib REQUIRED)
+  find_library(LIVOX_LIDAR_SDK_LIBRARY
+    NAMES liblivox_lidar_sdk_shared.so
+    PATHS /usr/local/livox-sdk2/lib /usr/local/lib
+    REQUIRED
+  )
 
-  ##
+  ## include path
   find_path(LIVOX_LIDAR_SDK_INCLUDE_DIR
-    NAMES "livox_lidar_api.h" "livox_lidar_def.h"
-    REQUIRED)
-
+    NAMES livox_lidar_api.h livox_lidar_def.h
+    PATHS /usr/local/livox-sdk2/include /usr/local/include
+    REQUIRED
+  )
   ## PCL library
   link_directories(${PCL_LIBRARY_DIRS})
   add_definitions(${PCL_DEFINITIONS})
